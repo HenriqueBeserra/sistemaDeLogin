@@ -7,16 +7,17 @@ const adicionaUsuario = async (req, res) => {
     const {login} = req.body;
     const {senha} = req.body
     
-    console.log(nome, senha, login)
+   
     try{
 
         const adicionado = await models.addUser(nome, login, senha);
-        adicionado? console.log(`usuário ${nome} adicionado com sucesso`):console.log(`Usuário ${nome} não adicionado`);
-        res.status(200).send('adicionado');
+        adicionado? console.log(` --- Usuário ${nome} adicionado com sucesso ---`):console.log(`Usuário ${nome} não adicionado`);
+        res.status(200).send('Usuário Adicionado');
 
     } 
     catch(err){
-        console.log(err)
+        console.log(err);
+        res.status(400).send("Usuário não adicionado")
     }
 
 
