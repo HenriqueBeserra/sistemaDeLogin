@@ -19,7 +19,16 @@ const addUser = async (nome, login, senha) => {
 
 }
 
+const updadteUser = async (id, set, condition) => {
+   
+    const query = `UPDATE usuarios SET Nome = ? WHERE id = ?`;
+    const [updateUser] = await connection.execute(query, [condition, id]);
+    return updateUser.info;
+
+}
+
 module.exports = {
     getAll,
-    addUser
+    addUser,
+    updadteUser
 }

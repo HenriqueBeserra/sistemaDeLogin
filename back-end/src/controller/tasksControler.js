@@ -28,8 +28,21 @@ const verificaUsuario = async (req, res) => {
     res.status(200).json(users)
 }
 
+const alteraUsuario = async (req, res) => {
+
+    const { id } = req.params;
+    const {coluna, novoDado } = req.body
+
+    
+    const usuarioAlterado = await models.updadteUser(id, coluna, novoDado);
+    console.log(`Usuário ${novoDado} alterado`);
+    return res.status(200).send('Usuario alterado com sucesso');
+
+}
+
 
 module.exports = {
     adicionaUsuario,
-    verificaUsuario
+    verificaUsuario,
+    alteraUsuario
 }
