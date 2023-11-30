@@ -15,10 +15,9 @@ async function verificaID(ID) {
 
     }
     
-    console.log(bd)
-    console.log(id)
-    const idExist = await ID in bd;
-    
+    const identificação = await parseInt(ID);
+    const idExist = await bd.includes(identificação);
+    console.log(idExist + ' ' + typeof identificação);
     return idExist;
 }
 
