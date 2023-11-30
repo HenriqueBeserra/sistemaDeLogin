@@ -6,19 +6,37 @@ async function verificaID(ID) {
 
     const users = await models.getAll();
     let i;
-    let bd = []
+    let bd = [];
    
-    //for(i in arr){ if(arr[i].id === 1){console.log(true)} else{console.log(false)} }
+    const identificação = await parseInt(ID);
+    
     for(i in users){
       
         bd.push(await parseInt(users[i].id));
 
     }
     
-    const identificação = await parseInt(ID);
     const idExist = await bd.includes(identificação);
-    console.log(idExist + ' ' + typeof identificação);
     return idExist;
-}
 
-module.exports = verificaID
+};
+
+async function verificaLoginUsuario(login) {
+
+    let bd = [];
+    let i;
+    const logUsers = await models.getAll();
+    for(i in logUsers){
+
+        bd.push(logUsers[i].login);
+        
+    };
+
+    const userExist = await bd.includes(login);
+    return userExist;
+};
+
+module.exports = {
+    verificaID,
+    verificaLoginUsuario
+}

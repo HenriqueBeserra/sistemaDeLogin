@@ -1,5 +1,5 @@
 
-const verificaID = require('../middlewares/verificação');
+const verifica = require('../middlewares/verificação');
 const models = require('../models/tasksModels');
 
 const adicionaUsuario = async (req, res) => {
@@ -8,19 +8,23 @@ const adicionaUsuario = async (req, res) => {
     const {login} = req.body;
     const {senha} = req.body
     
-   
-    try{
+    const userExist = await verifica.verificaLoginUsuario(login);
+    if(userExist === false){ 
+        try{
 
-        const adicionado = await models.addUser(nome, login, senha);
-        adicionado? console.log(` --- Usuário ${nome} adicionado com sucesso ---`):console.log(`Usuário ${nome} não adicionado`);
-        res.status(200).send('Usuário Adicionado');
+            const adicionado = await models.addUser(nome, login, senha);
+            adicionado? console.log(` --- Usuário ${nome} adicionado com sucesso ---`):console.log(`Usuário ${nome} não adicionado`);
+            res.status(200).send('Usuário Adicionado');
 
-    } 
-    catch(err){
-        console.log(err);
-        res.status(400).send("Usuário não adicionado")
+        } 
+        catch(err){
+            console.log(err);
+            res.status(400).send("Usuário não adicionado")
+        }
     }
-
+    else{
+        return res.status(200).send("Usuário já existe. Tente novamente")
+    }
 
 };
 
@@ -42,13 +46,14 @@ const alteraUsuario = async (req, res) => {
 };
 
 const apagaUsuario = async (req, res) => {
+   //preparando ambiente da função
     require('dotenv').config();
     let {senha} = req.body;
     const {id} = req.params;
-    const idExist = await verificaID(id)
-    console.log(idExist)
-    
-    if(  idExist == true ){
+   
+   
+    const idExist = await verifica.verificaID(id) //Verifica se o usuário existe realmente antes de apagar
+     if(  idExist == true ){
         
         if(senha===process.env.LOGDESERVER){
             const usuarioDeletado = await models.deleteUser(id, process.env.LOGDESEG);
