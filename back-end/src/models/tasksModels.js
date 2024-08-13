@@ -10,12 +10,12 @@ const getAll = async () => {
 
 };
 
-const addUser = async (nome, login, senha) => {
+const addUser = async (nome, login, senha,n_conta, tp_conta, saldo, cpf) => {
     
     const dateUTC = await new Date(Date.now()).toString();
-    const query = `INSERT INTO usuarios(Nome, login, senha, created_at) VALUES (?,?,?,?)`
+    const query = `INSERT INTO usuarios(nome, login, password, numero_conta, tipo_de_Conta, saldo, cpf) VALUES (?,?,?,?,?,?,?)`
 
-    const [createdUser] = await connection.execute(query, [nome, login, senha, dateUTC])
+    const [createdUser] = await connection.execute(query, [nome, login, senha, n_conta, tp_conta, saldo, cpf ])
     return createdUser;
 
 };

@@ -6,14 +6,18 @@ const adicionaUsuario = async (req, res) => {
 
     const {nome} = req.body ;
     const {login} = req.body;
-    const {senha} = req.body
+    const {password} = req.body;
+    const {numero_conta} = req.body;
+    const {tipo_de_conta} = req.body;
+    const {saldo} = req.body;
+    const {cpf} = req.body;
     
     const userExist = await verifica.verificaLoginUsuario(login);
     if(userExist === false){ 
         try{
 
-            const adicionado = await models.addUser(nome, login, senha);
-            adicionado? console.log(` --- Usuário ${nome} adicionado com sucesso ---`):console.log(`Usuário ${nome} não adicionado`);
+            const adicionado = await models.addUser(nome, login, password, numero_conta, tipo_de_conta, saldo, cpf);
+            adicionado? console.log(` --- Usuário ${nome} adicionado com sucesso ---`) : console.log(`Usuário ${nome} não adicionado`);
             res.status(200).send('Usuário Adicionado');
 
         } 
@@ -53,7 +57,7 @@ const apagaUsuario = async (req, res) => {
    
    
     const idExist = await verifica.verificaID(id) //Verifica se o usuário existe realmente antes de apagar
-     if(  idExist == true ){
+    if(  idExist == true ){
         
         if(senha===process.env.LOGDESERVER){
             const usuarioDeletado = await models.deleteUser(id, process.env.LOGDESEG);
